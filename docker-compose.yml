@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  cli:
+    build:
+        context: .
+        dockerfile: ./cli/Dockerfile
+    container_name: is-mvp-cli
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    environment:
+      - PYTHONPATH=/app
+      - ES_HOST=elasticsearch
+      - ES_PORT=9200
+      - OPENAI_API_KEY=
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    build: ./elasticsearch
+    container_name: is-mvp-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms2G -Xmx4G
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+    ports:
+      - "9210:9200"
+      - "9310:9300"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+volumes:
+  es_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./elasticsearch/data
