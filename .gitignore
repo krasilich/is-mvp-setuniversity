@@ -1,3 +1,8 @@
 .venv
 .idea
 __pycache__
+./elasticsearch/data
+!./elasticsearch/data/.gitkeep
+./elasticsearch/backup
+!./elasticsearch/backup/.gitkeep
+./elasticsearch/backup/is_snapshot.tgz

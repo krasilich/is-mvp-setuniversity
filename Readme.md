@@ -39,15 +39,29 @@ Inside the container run the following command to list all available commands
 python cli/cli.py --help
 ```
 
-Preindexed ElasticSearch data is included in the project.
-But in case you want to reindex the data, you can run the following command
+ElasticSearch snapshot with indexed data is provided by request.
+Download the snapshot and unarchive it to the `elasticsearch/backup` folder.
+So you should have the following structure
+```
+|-- elasticsearch
+|   |-- backup
+|       |-- is_snapshot
+```
+
+After first project start please run the following command to restore the snapshot
+```bash
+docker compose exec elasticsearch /usr/local/bin/restore.sh
+```
+
+But in case you want to reindex the data, you can run the following command.
+This might take up to 12 hours to index all the data.
 ```bash
 python cli/cli.py index-products [path_to_products_feed]
 ```
 
 To execute a request run the following command
 ```bash
-python cli/cli.py prompt [prompt]
+python cli/cli.py prompt "[prompt]"
 ```
 
 ## API

@@ -38,6 +38,7 @@ services:
       - "9310:9300"
     volumes:
       - es_data:/usr/share/elasticsearch/data
+      - es_backup:/usr/share/elasticsearch/backup
 
 volumes:
   es_data:
@@ -46,3 +47,9 @@ volumes:
       type: none
       o: bind
       device: ./elasticsearch/data
+  es_backup:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./elasticsearch/backup
